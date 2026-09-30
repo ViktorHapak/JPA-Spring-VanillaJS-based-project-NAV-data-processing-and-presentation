@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NAV adatelemzés</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+ <div class="container">
+  <nav class="menu-head">
+   <a class="menu-label">Dokumentáció</a>
+   <span class="menu-right">
+    <ul class="menu-points">
+     <li id="task-ul" class="menu-point"> <a>Feladat leírása</a> </li>
+	 <li id="analyze-ul" class="menu-point"> <a>Adatforrás</a> </li>
+	 <li id="result-ul" class="menu-point"> <a>Eredmények</a> </li>
+    </ul>
+   </span>	
+  </nav>
+  
+  <div id="task-section" class="section-container">
+   <h2>Feladat leírása</h2>
+    <h3>A feladat feltétele</h3>
+     <p class="starter-paragraph">Az előfeladat keretein belül a cél a <strong>NAV adatainak feldolgozása</strong>, elemzése és eredményeinek ábrázolása, 
+      valamint a megoldás menetének bemutatása volt.</p>
+     <p class="paragraph">Az ábrázolandó adathalmaz két <strong>CSV formátumú forrásfájl</strong>, amelyek nagy mennyiségű adatot tartalmaznak. 
+      A fájlokból beolvasott adatokat <strong>lokális adatbázisba</strong> töltöttem fel.
+      A feltöltött adatokat felhasználva <strong>diagrammokat</strong>, illetve elemzéshez használható <strong>JSON-kimeneteket</strong> állítottam elő.
+      Ehhez két programot hoztam létre, a <em>Java</em> programozási nyelv használatával.A dokumentáció megírása során <em>VanillaJS alapú</em> megoldást használtam, 
+      vagyis a <em>HTML</em>-weboldalhoz helyi lokális <em>CSS-</em> és <em>Javascript-</em> fájlokat hoztam létre.</p>
+   
+    <h3>A megoldás lépései</h3>
+	 <ul class="section-enumaration">
+	  <li><a onclick="jumpTo('step-first')">Az adatforrás beolvasása és feltöltése</a></li>
+	  <li><a onclick="jumpTo('step-second')">Az adatok feldolgozása és az eredmény ábrázolása</a></li>
+	  <li><a onclick="jumpTo('step-third')">A dokumentáció létrehozása</a></li>
+	 </ul>
+	 <hr/>
+	 
+	<h3 id="step-first">Az adatforrás beolvasása és feltöltése</h3> 
+	<h6 class="paragraph-subtitle"><em>Java nyelv; JPA:Hibernate; MySQL adatbázis; feladatpárhuzamosítás</em></h6>
+	<p class="starter-paragraph"><em><strong>Beolvasás a forrásfájlokból: </em></strong>A fájlok adatfolyamként történő beolvasásához az <em>InputStream</em> osztályt használtam.
+	  A forrásfájlokból (<em>gazdmut.csv</em>, <em>szamla.csv</em>) beolvasott sorokat az adatforrás attribútumainak megfelelően <em>Map&lt;String, Object&gt;</em> típusú,
+      <strong>strukturált objektumokká</strong> alakítottam, ahol a kulcsok az attribútumneveket, az értékek a megfelelő adatmezőket reprezentálják.
+	  A fájlból történő beolvasás végeredménye ezen <strong>összetett objektumok listája</strong>.</p>
+    <p class="paragraph"><em><strong>A beolvasás párhuzamosítása:</strong> </em>A forrásfájlok nagy mérete miatt párhuzamosítást és feladatmegosztást alkalmaztam.
+	  A fő programszál a beolvasott sorokat egy <strong>szálak közötti adatátadó puffer</strong>-be helyezi, a többi, párhuzamos <em>worker szál</em> (a processzormagok számától függően)
+	  a beolvasott sorokat feldolgozza, majd a beolvasott objektumokat hozzáadja az eredménylistához. </p>
+	<p class="paragraph"><em><strong>ORM leképzés:</strong> </em> A magas szintű adatbázisműveletek megvalósításához meghatároztam a <strong>JPA perzisztenciaegységet</strong>,
+	  és a relációs adattáblák attribútumainak és kapcsolatainak megfelelő <strong>Java entitánsmodelleket</strong>.
+	  A számlaobjektumok nem egyértelmű tételtípusa miatt <strong>a reláció felbontását</strong> alkalmaztam: külön számla és kategória modell M:N kapcsolattal.</p>
+	<p class="paragraph"><em><strong>Az objektumok feltöltése:</strong></em> A modellstruktúrának megfelelő feltöltést <strong>Hibernate tranzakciók</strong> keretein belül valósítottam meg,
+	  elmentve a tranzakciók eredményét. A számlák feltöltése során párhuzamosítást alkalmaztam: a számlaobjetktumokat az azonosító és processzormagok számával vett osztás maradéka alapján
+	  <strong>partíciókra</strong> bontva. A perzisztálás (mentés) során <strong>köteges módszert</strong> alkalmaztam, 1000 objektum feldolgozása során a <strong>perzisztencia kontextus</strong> felszabadításával.
+	  A számlák feltöltésénél fontos szerepet játszott a kategória attribútum, mivel már létező számlaazonosító esetén (duplikációkezelés)
+	  a program <strong>entitánsfrissítést</strong> hajt végre, új kategóriát hozzáadva az adott számlához.</p>
+    <hr/>
+	
+	<h3 id="step-second">Az adatok feldolgozása és az eredmény ábrázolása</h3> 
+	<h6 class="paragraph-subtitle"><em>Java nyelv; Spring Boot, Spring Data JPA; REST (JSON-kimenetek); JFreeChart (diagramok létrehozásához)</em></h6>
+    <p class="starter-paragraph"><em><strong>Alapvető konfiguráció: </em></strong><em>Spring</em> alapú programot hoztam létre az adatelemzési eredmények ábrázolásához. 
+	  A <em>Spring Boot</em> projekt létrehozásánál hozzáadtam a szükséges <strong>függőséket</strong> (<em>Spring Web</em>, <em>Spring Data JPA</em>).
+	  Az előző programban meghatározott modellstruktúráját itt is felhasználtam. A Spring Data JPA automatizálta az <strong>ORM konfigurációt</strong>,
+	  illetve az <strong>adatlekérdezési metódusok</strong> megírását.</p>
+	  
+    <p class="paragraph"><em><strong>A feltöltött adatok feldolgozása: </em></strong>A <em>Spring</em> keretrenszer előnyeit felhasználva a program
+	  két adatfeldolgozási réteget tartalmaz: <strong>repository</strong>, <strong>service</strong>. A <em>repository</em> réteg a három entitánsosztály
+	  számára <strong>beépített implementációkat</strong> tartalmaz egyszerű adatbázislekérdezési eredmények kinyeréséhez.
+	  A <em>service</em> osztályok metódusai a lekérdezési eredmények felhasználásával az eredmény ábrázolásához használható értékeket vagy adatszerkezeteket
+      állítanak elő (mivel a program célja az adatok elemzése, így nem tartalmaz tranzakciókezelést).</p>
+    
+    <p class="paragraph"><em><strong>Az adatelemzési objektumok előkészítése: </em></strong>A <em>REST</em> architektúrát alkalmazva a <strong>controller</strong>
+	 réteg <strong>REST végpontakat</strong> biztosít, amelyek az adatelemzések <em>JSON</em> formátumú eredményeit szolgáltatnak.
+	 <strong>JSON eredmények</strong> előállítása során a controller metódusok további <em>DTO</em> osztályokat használnak fel, a szükséges adatok struktúrált megjelenítéséhez a 
+	 végpontok eredményében.</p>
+	 
+	<p class="paragraph"><em><strong>Diagramok előkészítése: </em></strong>A <em>REST API</em> végpontok biztosítása mellett a controller metódusok meghívják a 
+     <strong>diagramgeneráló osztály</strong> metódusait, előállított adatforrások felhasználásával. A diagramok generálásához a <em>JFreeChart</em> külső könyvtárat alkalmaztam.
+	 A <em>Swing</em> és <em>AWT</em> könyvtárak segítségével a diagramterületet <strong>GUI ablakon</strong> jelenítettem meg, 
+	 illetve ez alapján - pixelgrafikus úton - képfájlokat hoztam létre a diagramok tartalmával</p>
+	<hr/> 
+	 
+	<h3 id="step-third">Az dokumentáció megírása</h3> 
+	<h6 class="paragraph-subtitle"><em>Vanilla JS (HTML+CSS+JS); képanyagok</em></h6>
+    <p class="starter-paragraph">A <em>Vanilla JS</em> megközelítést alkalmazva - <strong>kliens oldali keretrendszer</strong>  használata nélkül - <strong>statikus HTML oldalt</strong> használtam
+     a megoldás menetének, az adatforrás és eredmények elemzésének leírásához, <strong>stílusleíró fájl</strong> és <strong>szkriptfájl</strong> csatolásával.
+     Az itt megjelenített, diagramokat ábrázoló <strong>képanyagokat</strong> az előző program <em>REST</em> végpontjainak meghívásával generáltam (azok melléktermékeként). 
+     Néhány, az adatelemzés szempontjából fontos <em>JSON</em> eredményt <strong>lokális JS-változóként</strong> inicializáltam,
+	 amelyek a megfelelő HTML komponenseken belül <strong>iteratív módon</strong> jelennek meg. </p>	
+	    
+  </div>
+  
+  <div id="analyze-section" class="no-container">
+   <div class="card-conteiner">
+    <div class="card">
+     <h3>A kezdeti adatforrás</h3>
+	 <p class="starter-paragraph">A kiindulási adatforrásként kapott két forrásfájl (<strong>gazdmut.csv</strong>, <strong>szamla.csv</strong>) a vételi oldalon szereplő cégek azonosítóját, 
+	  <strong>tevékenységi ágazatát</strong>, <strong>méretét</strong>, 
+	  illetve az adatforrásban szereplő cégek rendelési tételeinek <strong>összegét</strong> és a nyújtott <strong>szolgáltatások besorolását</strong> tartalmazzák.</p>
+	 <p class="paragraph">A vevő oldalon szereplő cégek számláinak feltöltése során kihívást jelentett az adatelemek nagy száma, 
+	  illetve bizonyos számlák többféle kategóriához tartozása (az eredeti forrásfájlban egy számla több bejegyzésben is szerepelhet, eltérő kategóriával).
+	  Az utóbbi probláma megoldásához alkalmaztam "relációfelbontást", vagyis egy adott azonosítóval rendelkező számla a létrehozott adatbázisban csak egyszer jelenhet meg,
+	  viszont több kategóriához tartozhat (külön adattáblákban szerepelnek). </p>
+	</div>
+    <div class="card">	
+	 <h3>A formázott adatbázis</h3>
+	 <p class="starter-paragraph">A formázott, lokális adatbázisba feltöltött és elemzéshez könnyen használható adatforrás három adattáblát tartalmaz:
+	  <strong>gazdmut</strong> (a vevő oldalon szereplő cégek), <strong>szamla</strong> (a cégekhez tartozó számlák), <strong>kategoria</strong> (a számlákhoz tartozó kategóriák).</p>
+	 <p class="paragraph">Minden cég és számla <strong>egyedi azonosítóval</strong> ellátott, a kategóriákhoz automatikusan generált kulcsattribútum tartozik. 
+	  A cégek és számlák között eredendően egy-a-többhöz kapcsolat áll fent. A nem egyértelmű besorolás következtében a számlák és kategóriák adattáblái között
+	  több-a-többhöz kapcsolat van meghatározva, az elsődleges kulcspárokat tartalmazó kapcsolótáblával.</p>
+	</div>  
+    </div>
+	
+	<div class="category-card-container">
+	 <div class="category-card">
+	  <h3>Tevékenységi ágazatok</h3>
+	  <ul id="taeor-enum" class="category-enum">
+	  </ul>
+	 </div>
+	 <div class="category-card">
+	  <h3>Vállalatok mérete</h3>
+	  <ul id="sizes-enum" class="category-enum">
+	  </ul>
+	 </div>
+	 <div class="category-card">
+	  <h3>Szolgáltatások típusa</h3>
+	  <ul id="invoice-category-enum" class="category-enum">
+	  </ul>
+	 </div>
+	</div>
+   </div>
+   
+  <div id="result-section" class="no-container">
+   <h2>Eredmények</h2>
+   <h3>A legnagyobb költségvetéssel rendelkező cégek</h3>
+    <table>
+	 <thead>
+        <tr>
+            <th>Azonosító</th>
+            <th>Vállalat mérete</th>
+            <th>Tevékenységi ágazat</th>
+            <th>Összesített költség (HUF)</th>
+        </tr>
+     </thead>
+     <tbody id="topGazdmuts-list">
+     </tbody>
+	</table>
+	
+   <hr/>
+   <h3>A cégek ágazatonkénti eloszlása + jellemző vállalatméretek ágazatonként</h3>
+   <img src="img/taeor_composition.png"/>
+   
+   <hr/>
+   <h3>Az ágazatok összköltsége</h3>
+   <img src="img/taeor_expenses.png"/>
+   
+   <hr/>
+   <h3>A költség eloszlása cégenként</h3>
+   <img src="img/expenses_distribution.png"/>
+   
+   <hr/>
+   <h3>A legnagyobb értékű tételek értéke és megrendelője (cég azonosító)</h3>
+   <table>
+    <thead>
+        <tr>
+            <th rowspan="2">Tétel azonosító</th>
+            <th rowspan="2">Összeg</th>
+            <th rowspan="2">Szolgáltatások</th>
+            <th colspan="3">Megrendelő cég</th>
+        </tr>
+        <tr>
+            <th>Azonosító</th>
+            <th>Tevékenységi ágazat</th>
+            <th>Vállalat mérete</th>
+        </tr>
+    </thead>
+    <tbody id="topPurchases-list">
+    </tbody>
+   </table>
+   
+   <hr/>
+   <h3>A leggyakoribb kategória-metszetek összköltsége</h3>
+   <img src="img/invoice_values_upset.png"/>
+      
+  </div>
+</body>
+<script src="js/index.js"></script>
+</html>
