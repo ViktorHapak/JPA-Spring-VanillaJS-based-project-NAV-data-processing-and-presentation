@@ -23,6 +23,83 @@ body {
     overflow: hidden;
 }
 
+.message-div {
+    position: fixed;
+    display: block;
+    width: 80%;
+    left: 10%;
+    top: 50px;
+    padding: 15px;
+    background-color: #f7f7f7;
+    border-left: 5px solid dodgerblue;
+    box-shadow: 0 0 14px rgba(30, 144, 255, 0.45);
+    z-index: 1000;
+    animation: blur-message 5s ease-in-out forwards;
+}
+
+.message {
+    width: 100%;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: red;
+    margin: 0;
+}
+
+@keyframes blur-message {
+    0% {
+        opacity: 0;
+        transform: translateY(-8px);
+        visibility: visible;
+    }
+
+    15% {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+
+    75% {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-8px);
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
+@keyframes blur-message {
+    0% {
+        opacity: 0;
+        transform: translateY(-8px);
+        visibility: visible;
+    }
+
+    15% {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+
+    75% {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-8px);
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
 .menu-head {
     width: 100%;
     min-height: 60px;

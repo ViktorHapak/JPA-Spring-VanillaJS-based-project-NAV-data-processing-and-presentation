@@ -1,1 +1,1 @@
-A NAV adatait tartalmazó eredeti CSV-adatforrásokat jogi okokból eltávolítottam a projektből. Ezek azonban már feldolgozásra kerültek, az elemzési célú diagramok és táblázatok megtekinthetőek a létrehozott honlapon!
+A NAV adatait tartalmazó eredeti CSV-adatforrásokat jogi szempontból eltávolítottam a projektből. Ezek korábban fel lettek dolgozva, az elemzési célú diagramok és táblázatok megtekinthetőek a létrehozott honlapon!
