@@ -228,6 +228,13 @@ const invoiceCategoriesListBody = document.querySelector("#invoice-category-enum
 const topGazdmutsBody = document.querySelector("#topGazdmuts-list");
 const topPurchasesBody = document.querySelector("#topPurchases-list");
 
+const firstParagraphs = document.querySelectorAll(".starter-paragraph");
+const paragraphs = document.querySelectorAll(".paragraph");
+const tables = document.querySelectorAll("table");
+const imgs = document.querySelectorAll("img");
+
+
+
 function hideAllSections()
 {
     taskSection.className = "no-container";
@@ -286,17 +293,16 @@ function displayCategoriesList(arr, element){
 	}).join('');
 }
 
-function displayTopGazdmuts()
-{
+function displayTopGazdmuts(){
     topGazdmutsBody.innerHTML = topGazdmuts.map((gazdmut) => {
         const { aaAzon, vallalatMeret, teaorKategoria, totalExpense } = gazdmut;
 
         return `
             <tr>
-                <td>${aaAzon}</td>
+                <td class="numeric-td">${aaAzon}</td>
                 <td>${vallalatMeret}</td>
                 <td>${teaorKategoria}</td>
-                <td>${formatCurrency(totalExpense)}</td>
+                <td class="numeric-td">${formatCurrency(totalExpense)}</td>
             </tr>
         `;
     }).join('');
@@ -315,10 +321,10 @@ function displayTopPurchases(){
 
         return `
             <tr>
-                <td>${esstId}</td>
+                <td class="numeric-td">${esstId}</td>
                 <td>${formatCurrency(xBruttoHuf)}</td>
                 <td>${categoryList}</td>
-                <td>${customer.aaAzon}</td>
+                <td class="numeric-td">${customer.aaAzon}</td>
                 <td>${customer.teaorKategoria}</td>
                 <td>${customer.vallalatMeret}</td>
             </tr>
@@ -336,3 +342,21 @@ displayCategoriesList(invoiceCategories, invoiceCategoriesListBody);
 
 displayTopGazdmuts();
 displayTopPurchases();	
+
+const observer = new IntersectionObserver((entries) => {
+
+	
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.3
+});
+
+//firstParagraphs.forEach(element => observer.observe(element));
+//paragraphs.forEach(element => observer.observe(element));
+tables.forEach(element => observer.observe(element));
+imgs.forEach(element => observer.observe(element));

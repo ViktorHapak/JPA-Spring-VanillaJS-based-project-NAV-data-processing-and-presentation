@@ -10,7 +10,7 @@
   <div class="message-div">
     <p class="message">
         A NAV adatait tartalmazó eredeti CSV-adatforrásokat jogi megfontolásból eltávolítottam a projektből.
-        Az adatok azonban korábban feldolgozásra kerültek, így az elemzési célú diagramok és táblázatok megtekinthetők a létrehozott dokumentációs oldalon.
+        Az adatok korábban feldolgozásra kerültek, az elemzési célú diagramok és táblázatok megtekinthetők a létrehozott dokumentációs oldalon.
     </p>
 </div>
   <nav class="menu-head">
@@ -27,25 +27,25 @@
   <div id="task-section" class="section-container">
    <h2>Feladat leírása</h2>
     <h3>A feladat feltétele</h3>
-     <p class="starter-paragraph">Az előfeladat keretein belül a cél a <strong>NAV adatainak feldolgozása</strong>, elemzése és eredményeinek ábrázolása, 
-      valamint a megoldás menetének bemutatása volt.</p>
-     <p class="paragraph">Az ábrázolandó adathalmaz két <strong>CSV formátumú forrásfájl</strong>, amelyek nagy mennyiségű adatot tartalmaznak. 
-      A fájlokból beolvasott adatokat <strong>lokális adatbázisba</strong> töltöttem fel.
-      A feltöltött adatokat felhasználva <strong>diagrammokat</strong>, illetve elemzéshez használható <strong>JSON-kimeneteket</strong> állítottam elő.
-      Ehhez két programot hoztam létre, a <em>Java</em> programozási nyelv használatával.A dokumentáció megírása során <em>VanillaJS alapú</em> megoldást használtam, 
-      vagyis a <em>HTML</em>-weboldalhoz helyi lokális <em>CSS-</em> és <em>Javascript-</em> fájlokat hoztam létre.</p>
+	 <p class="top-starter-paragraph">Az előfeladat keretein belül a cél a <strong>NAV adatainak feldolgozása</strong>, elemzése és eredményeinek ábrázolása, 
+	  valamint a megoldás menetének bemutatása volt.</p>
+	 <p class="top-paragraph">Az ábrázolandó adathalmaz két <strong>CSV formátumú forrásfájl</strong>, amelyek nagy mennyiségű adatot tartalmaznak. 
+	  A fájlokból beolvasott adatokat <strong>lokális adatbázisba</strong> töltöttem fel.
+	  A feltöltött adatokat felhasználva <strong>diagrammokat</strong>, illetve elemzéshez használható <strong>JSON-kimeneteket</strong> állítottam elő.
+	  Ehhez két programot hoztam létre, a <em>Java</em> programozási nyelv használatával.A dokumentáció megírása során <em>VanillaJS alapú</em> megoldást használtam, 
+	  vagyis a <em>HTML</em>-weboldalhoz helyi lokális <em>CSS-</em> és <em>Javascript-</em> fájlokat hoztam létre.</p>
    
-    <h3>A megoldás lépései</h3>
-	 <ul class="section-enumaration">
-	  <li><a onclick="jumpTo('step-first')">Az adatforrás beolvasása és feltöltése</a></li>
-	  <li><a onclick="jumpTo('step-second')">Az adatok feldolgozása és az eredmény ábrázolása</a></li>
-	  <li><a onclick="jumpTo('step-third')">A dokumentáció létrehozása</a></li>
-	 </ul>
+	 <h3>A megoldás lépései</h3>
+		 <ul class="section-enumaration">
+		  <li><a onclick="jumpTo('step-first')">Az adatforrás beolvasása és feltöltése</a></li>
+		  <li><a onclick="jumpTo('step-second')">Az adatok feldolgozása és az eredmény ábrázolása</a></li>
+		  <li><a onclick="jumpTo('step-third')">A dokumentáció létrehozása</a></li>
+		 </ul>
 	 <hr/>
 	 
 	<h3 id="step-first">Az adatforrás beolvasása és feltöltése</h3> 
 	<h6 class="paragraph-subtitle"><em>Java nyelv; JPA:Hibernate; MySQL adatbázis; feladatpárhuzamosítás</em></h6>
-	<p class="starter-paragraph"><em><strong>Beolvasás a forrásfájlokból: </em></strong>A fájlok adatfolyamként történő beolvasásához az <em>InputStream</em> osztályt használtam.
+	<p class="top-starter-paragraph"><em><strong>Beolvasás a forrásfájlokból: </em></strong>A fájlok adatfolyamként történő beolvasásához az <em>InputStream</em> osztályt használtam.
 	  A forrásfájlokból (<em>gazdmut.csv</em>, <em>szamla.csv</em>) beolvasott sorokat az adatforrás attribútumainak megfelelően <em>Map&lt;String, Object&gt;</em> típusú,
       <strong>strukturált objektumokká</strong> alakítottam, ahol a kulcsok az attribútumneveket, az értékek a megfelelő adatmezőket reprezentálják.
 	  A fájlból történő beolvasás végeredménye ezen <strong>összetett objektumok listája</strong>.</p>
@@ -100,19 +100,19 @@
    <div class="card-conteiner">
     <div class="card">
      <h3>A kezdeti adatforrás</h3>
-	 <p class="starter-paragraph">A kiindulási adatforrásként kapott két forrásfájl (<strong>gazdmut.csv</strong>, <strong>szamla.csv</strong>) a vételi oldalon szereplő cégek azonosítóját, 
+	 <p class="top-starter-paragraph">A kiindulási adatforrásként kapott két forrásfájl (<strong>gazdmut.csv</strong>, <strong>szamla.csv</strong>) a vételi oldalon szereplő cégek azonosítóját, 
 	  <strong>tevékenységi ágazatát</strong>, <strong>méretét</strong>, 
 	  illetve az adatforrásban szereplő cégek rendelési tételeinek <strong>összegét</strong> és a nyújtott <strong>szolgáltatások besorolását</strong> tartalmazzák.</p>
-	 <p class="paragraph">A vevő oldalon szereplő cégek számláinak feltöltése során kihívást jelentett az adatelemek nagy száma, 
+	 <p class="top-paragraph">A vevő oldalon szereplő cégek számláinak feltöltése során kihívást jelentett az adatelemek nagy száma, 
 	  illetve bizonyos számlák többféle kategóriához tartozása (az eredeti forrásfájlban egy számla több bejegyzésben is szerepelhet, eltérő kategóriával).
 	  Az utóbbi probláma megoldásához alkalmaztam "relációfelbontást", vagyis egy adott azonosítóval rendelkező számla a létrehozott adatbázisban csak egyszer jelenhet meg,
 	  viszont több kategóriához tartozhat (külön adattáblákban szerepelnek). </p>
 	</div>
     <div class="card">	
 	 <h3>A formázott adatbázis</h3>
-	 <p class="starter-paragraph">A formázott, lokális adatbázisba feltöltött és elemzéshez könnyen használható adatforrás három adattáblát tartalmaz:
+	 <p class="top-starter-paragraph">A formázott, lokális adatbázisba feltöltött és elemzéshez könnyen használható adatforrás három adattáblát tartalmaz:
 	  <strong>gazdmut</strong> (a vevő oldalon szereplő cégek), <strong>szamla</strong> (a cégekhez tartozó számlák), <strong>kategoria</strong> (a számlákhoz tartozó kategóriák).</p>
-	 <p class="paragraph">Minden cég és számla <strong>egyedi azonosítóval</strong> ellátott, a kategóriákhoz automatikusan generált kulcsattribútum tartozik. 
+	 <p class="top-paragraph">Minden cég és számla <strong>egyedi azonosítóval</strong> ellátott, a kategóriákhoz automatikusan generált kulcsattribútum tartozik. 
 	  A cégek és számlák között eredendően egy-a-többhöz kapcsolat áll fent. A nem egyértelmű besorolás következtében a számlák és kategóriák adattáblái között
 	  több-a-többhöz kapcsolat van meghatározva, az elsődleges kulcspárokat tartalmazó kapcsolótáblával.</p>
 	</div>  
