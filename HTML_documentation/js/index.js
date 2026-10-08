@@ -353,7 +353,7 @@ const observer = new IntersectionObserver((entries) => {
         }
     });
 }, {
-    threshold: 0.3
+    threshold: 0.2
 });
 
 //firstParagraphs.forEach(element => observer.observe(element));
