@@ -46,7 +46,7 @@
 	<h3 id="step-first">Az adatforrás beolvasása és feltöltése</h3> 
 	<h6 class="paragraph-subtitle"><em>Java nyelv; JPA:Hibernate; MySQL adatbázis; feladatpárhuzamosítás</em></h6>
 	<p class="top-starter-paragraph"><em><strong>Beolvasás a forrásfájlokból: </em></strong>A fájlok adatfolyamként történő beolvasásához az <em>InputStream</em> osztályt használtam.
-	  A forrásfájlokból (<em>gazdmut.csv</em>, <em>szamla.csv</em>) beolvasott sorokat az adatforrás attribútumainak megfelelően <em>Map&lt;String, Object&gt;</em> típusú,
+	  A <em>csv</em> formátumú forrásfájlokból beolvasott sorokat az adatforrás attribútumainak megfelelően <em>Map&lt;String, Object&gt;</em> típusú,
       <strong>strukturált objektumokká</strong> alakítottam, ahol a kulcsok az attribútumneveket, az értékek a megfelelő adatmezőket reprezentálják.
 	  A fájlból történő beolvasás végeredménye ezen <strong>összetett objektumok listája</strong>.</p>
     <p class="paragraph"><em><strong>A beolvasás párhuzamosítása:</strong> </em>A forrásfájlok nagy mérete miatt párhuzamosítást és feladatmegosztást alkalmaztam.
@@ -100,7 +100,7 @@
    <div class="card-conteiner">
     <div class="card">
      <h3>A kezdeti adatforrás</h3>
-	 <p class="top-starter-paragraph">A kiindulási adatforrásként kapott két forrásfájl (<strong>gazdmut.csv</strong>, <strong>szamla.csv</strong>) a vételi oldalon szereplő cégek azonosítóját, 
+	 <p class="top-starter-paragraph">A kiindulási adatforrásként kapott két, <strong>csv</strong> forrásfájl a vételi oldalon szereplő cégek azonosítóját, 
 	  <strong>tevékenységi ágazatát</strong>, <strong>méretét</strong>, 
 	  illetve az adatforrásban szereplő cégek rendelési tételeinek <strong>összegét</strong> és a nyújtott <strong>szolgáltatások besorolását</strong> tartalmazzák.</p>
 	 <p class="top-paragraph">A vevő oldalon szereplő cégek számláinak feltöltése során kihívást jelentett az adatelemek nagy száma, 
