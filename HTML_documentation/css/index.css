@@ -404,6 +404,11 @@ table.show, img.show{
 }
 
 @media (max-width: 900px) {
+	.container {
+        width: 94%;
+        max-height: 90dvh;
+    }
+	
 	.category-card-container{
 		display: flex;
 		flex-direction: column;
