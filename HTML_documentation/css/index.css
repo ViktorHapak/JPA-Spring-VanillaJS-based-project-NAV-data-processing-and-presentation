@@ -427,12 +427,6 @@ table.show, img.show{
 
 @media screen and (max-width: 650px) {
 
-    /* Fő panel szélessége mobilon */
-    .container {
-        width: 94%;
-        max-height: 90dvh;
-    }
-
     /* Navigáció két sorban */
     .menu-head {
         display: flex;
