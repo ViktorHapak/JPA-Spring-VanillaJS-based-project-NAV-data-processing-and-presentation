@@ -420,12 +420,84 @@ table.show, img.show{
 	
 }
 
-@media (max-width: 650px) {
-	thead{
-		font-size: 10px;
-	}
-	
-	tbody{
-		font-size: 8px;
-	}
+@media screen and (max-width: 650px) {
+
+    /* Fő panel szélessége mobilon */
+    .container {
+        width: 94%;
+        max-height: 90dvh;
+    }
+
+    /* Navigáció két sorban */
+    .menu-head {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+
+        height: auto;
+        min-height: 0;
+        padding: 12px 8px 0;
+    }
+
+    .menu-label {
+        display: block;
+        width: 100%;
+        line-height: 1.3;
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 12px;
+    }
+
+    .menu-right {
+        float: none;
+        display: block;
+        width: 100%;
+    }
+
+    .menu-points {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+    }
+
+    .menu-point a {
+        height: auto;
+        padding: 10px 7px;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    /* Az aktív tartalom belső görgetése */
+    .section-container {
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    /* Tájékoztató üzenet középre */
+    .message-div {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        translate: -50% -50%;
+
+        width: calc(100% - 32px);
+        max-width: 500px;
+        box-sizing: border-box;
+
+        margin: 0;
+        padding: 15px;
+    }
+
+    .message {
+        width: 100%;
+        font-size: 13px;
+        line-height: 1.4;
+        text-align: center;
+    }
 }
